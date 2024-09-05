@@ -33,6 +33,17 @@ models = {
     "madhavi_client": madhavi_client      # Add your token and model for madhavi_client if needed
 }
 def process_client(client, df):
+     x = ""
+    options = df['english sentence'].tolist()
+    z = st.radio('Select a sentence:', options)
+    
+    
+    if z:
+        for message in client.chat_completion(messages=[{"role": "user", "content": z}], max_tokens=500, stream=True):
+            x += message.choices[0].delta.content
+
+    return x
+    """
     x = ""
     for i in range(df.shape[0]):
         z = st.checkbox(df['english sentence'][i])
@@ -41,7 +52,7 @@ def process_client(client, df):
                 print(message.choices[0].delta.content, end="")
                 x += message.choices[0].delta.content
     return x
-
+    """
 def main():
     st.set_page_config(layout="wide", page_title="MODELS")
 
