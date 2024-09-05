@@ -33,7 +33,7 @@ models = {
     "madhavi_client": madhavi_client      # Add your token and model for madhavi_client if needed
 }
 def process_client(client, df):
-     x = ""
+    x = ""
     options = df['english sentence'].tolist()
     z = st.radio('Select a sentence:', options)
     
