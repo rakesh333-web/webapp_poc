@@ -53,6 +53,7 @@ def process_client(client, df):
                 x += message.choices[0].delta.content
     return x
     """
+
 def main():
     st.set_page_config(layout="wide", page_title="MODELS")
 
