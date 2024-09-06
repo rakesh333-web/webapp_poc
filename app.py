@@ -58,7 +58,9 @@ def main():
     st.set_page_config(layout="wide", page_title="MODELS")
 
     # Sidebar UI for uploading file and selecting model
-    st.sidebar.title("Model Selection and File Upload")
+    image_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfM34DG2u5fZI_pslFvrMpPKNNRBtbknBlVg&s"
+    st.image(image_url, width=400)
+    st.sidebar.title("ATE Test code Generation")
     uploaded_f = st.sidebar.file_uploader("Upload your Excel file", type=["csv"])
     selected_model = st.sidebar.selectbox("Choose your model", options=list(models.keys()))
 
