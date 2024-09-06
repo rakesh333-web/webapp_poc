@@ -55,13 +55,12 @@ def process_client(client, df):
     """
 
 def main():
-    st.title("ATE Test code Generation")
     st.set_page_config(layout="wide", page_title="MODELS")
 
     # Sidebar UI for uploading file and selecting model
     image_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfM34DG2u5fZI_pslFvrMpPKNNRBtbknBlVg&s"
-    st.sidebar.image(image_url, width=40)
-    #st.sidebar.title("ATE Test code Generation")
+    st.title("ATE Test code Generation")
+    st.image(image_url, width=100)
     uploaded_f = st.sidebar.file_uploader("Upload your Excel file", type=["csv"])
     selected_model = st.sidebar.selectbox("Choose your model", options=list(models.keys()))
 
