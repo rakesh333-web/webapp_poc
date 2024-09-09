@@ -40,19 +40,21 @@ def process_client(client, df):
     options = df['english sentence'].tolist()
     z = st.radio('Select a sentence:', options)
     API_KEY = "b5d5b5ea2ebd471b88b631a34ab7d522"
-        headers = {
+
+    # Define the headers for the API request
+    headers = {
         "Content-Type": "application/json",
         "api-key": API_KEY,
-        }
+    }
     
-    
+    # Define the payload for the API request
     payload = {
         "messages": [
             {
                 "role": "system",
                 "content": [
                     {
-                        "type": z,
+                        "type": "text",  # Ensure 'type' is correctly defined as 'text'
                         "text": "You are an AI assistant that helps people find information."
                     }
                 ]
@@ -62,15 +64,21 @@ def process_client(client, df):
         "top_p": 0.95,
         "max_tokens": 800
     }
+    
+    # Define the API endpoint
     ENDPOINT = "https://genainorthcentralus.openai.azure.com/openai/deployments/gpt-4odeployment/chat/completions?api-version=2024-02-15-preview"
+    
+    # Make the API request
     try:
         response = requests.post(ENDPOINT, headers=headers, json=payload)
         response.raise_for_status()  # Will raise an HTTPError if the HTTP request returned an unsuccessful status code
     except requests.RequestException as e:
         raise SystemExit(f"Failed to make the request. Error: {e}")
-     
+    
     # Handle the response as needed (e.g., print or process)
-    return response.json()
+    result = response.json()
+    print(result)  # Print the response to check the output
+
     """
     if z:
         for message in client.chat_completion(messages=[{"role": "user", "content": z}], max_tokens=500, stream=True):
