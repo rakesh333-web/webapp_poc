@@ -43,7 +43,7 @@ def process_client(client, df):
         headers = {
         "Content-Type": "application/json",
         "api-key": API_KEY,
-    }
+        }
     
     
     payload = {
