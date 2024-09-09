@@ -54,7 +54,7 @@ def process_client(client, df):
                 "role": "system",
                 "content": [
                     {
-                        "type": "text",  # Ensure 'type' is correctly defined as 'text'
+                        "type": z,  # Ensure 'type' is correctly defined as 'text'
                         "text": "You are an AI assistant that helps people find information."
                     }
                 ]
