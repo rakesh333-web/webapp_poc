@@ -4,6 +4,9 @@ import pandas as pd
 from googletrans import Translator
 import re
 import string
+import os
+import requests
+import base64
 
 # Function to convert each row in the dataframe
 def convert(row):
@@ -36,13 +39,45 @@ def process_client(client, df):
     x = ""
     options = df['english sentence'].tolist()
     z = st.radio('Select a sentence:', options)
+    API_KEY = "b5d5b5ea2ebd471b88b631a34ab7d522"
+        headers = {
+        "Content-Type": "application/json",
+        "api-key": API_KEY,
+    }
     
     
+    payload = {
+        "messages": [
+            {
+                "role": "system",
+                "content": [
+                    {
+                        "type": z,
+                        "text": "You are an AI assistant that helps people find information."
+                    }
+                ]
+            }
+        ],
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 800
+    }
+    ENDPOINT = "https://genainorthcentralus.openai.azure.com/openai/deployments/gpt-4odeployment/chat/completions?api-version=2024-02-15-preview"
+    try:
+        response = requests.post(ENDPOINT, headers=headers, json=payload)
+        response.raise_for_status()  # Will raise an HTTPError if the HTTP request returned an unsuccessful status code
+    except requests.RequestException as e:
+        raise SystemExit(f"Failed to make the request. Error: {e}")
+     
+    # Handle the response as needed (e.g., print or process)
+    return response.json()
+    """
     if z:
         for message in client.chat_completion(messages=[{"role": "user", "content": z}], max_tokens=500, stream=True):
             x += message.choices[0].delta.content
 
     return x
+    """
     """
     x = ""
     for i in range(df.shape[0]):
@@ -80,7 +115,7 @@ def main():
             st.dataframe(df['english sentence'])
 
             # Add prefix to English sentences
-            promtg = "code for the given requirement using customlibrary in cpp for the pin configuration test case"
+            promtg = "code for the given requirement using customlibrary in cpp for the pin configuration test case using psinstrument "
             df['english sentence'] = df['english sentence'].apply(lambda x: promtg + x)
 
             # Process selected model
