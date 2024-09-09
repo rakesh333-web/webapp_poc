@@ -77,7 +77,7 @@ def process_client(client, df):
     
     # Handle the response as needed (e.g., print or process)
     result = response.json()
-    print(result)  # Print the response to check the output
+    return result  # Print the response to check the output
 
     """
     if z:
