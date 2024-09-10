@@ -1,10 +1,10 @@
 import os
 import streamlit
-from openai import AzureOpenAI
+from openai import AzureChatOpenAI
     
-client = AzureOpenAI(
-  azure_endpoint = "https://genainorthcentralus.openai.azure.com/", 
-  api_key=os.getenv("b5d5b5ea2ebd471b88b631a34ab7d522"),  
+client = AzureChatOpenAI(
+  azure_endpoint ="https://genainorthcentralus.openai.azure.com/", 
+  api_key="b5d5b5ea2ebd471b88b631a34ab7d52",  
   api_version="2024-02-01"
 )
     
