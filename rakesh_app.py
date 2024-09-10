@@ -4,7 +4,7 @@ st.title("gpt responce")
 
 # Replace with your Azure OpenAI API key and endpoint
 API_KEY = "b5d5b5ea2ebd471b88b631a34ab7d52"
-ENDPOINT = "https://your_endpoint_name.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-02-15-preview"
+ENDPOINT = "https://genainorthcentralus.openai.azure.com/openai/deployments/gpt-4odeployment/chat/completions?api-version=2024-02-15-preview"
 
 # Define headers for API requests
 headers = {
