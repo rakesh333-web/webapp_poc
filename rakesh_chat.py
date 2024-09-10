@@ -2,7 +2,8 @@ import os
 import requests
 import base64
 import streamlit as st
-
+API_KEY = "b5d5b5ea2ebd471b88b631a34ab7d522"
+z=" using PS instrument, force all pins to 0V and then Force -0.010 mA to the pin under test LED2 and measure the voltage (MV)"
 st.title("gpt responce")
 headers = {
     "Content-Type": "application/json",
@@ -39,4 +40,4 @@ except requests.RequestException as e:
 
 # Handle the response as needed (e.g., print or process)
 result = response.json()
-print(result)  
+st.write(result)  
