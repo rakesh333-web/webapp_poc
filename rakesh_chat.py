@@ -39,6 +39,9 @@ except requests.RequestException as e:
     raise SystemExit(f"Failed to make the request. Error: {e}")
 
 # Handle the response as needed (e.g., print or process)
-result = response.json()
+#result = response.json()
+content = response.choices[0].text
+st.write(content)
+"""
 content = result.get('choices', [{}])[0].get('message', {}).get('content', 'No content found')
 st.write(content)  
