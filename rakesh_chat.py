@@ -47,7 +47,3 @@ else:
     content = 'No choices found in the response'
 st.write(content) 
 
-"""
-content = result.get('choices', [{}])[0].get('message', {}).get('content', 'No content found')
-st.write(content)  
-"""
