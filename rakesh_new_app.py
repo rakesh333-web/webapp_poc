@@ -4,7 +4,7 @@ from openai import AzureOpenAI
 import streamlit as st
 
 client = AzureOpenAI(
-  azure_endpoint = "https://genainorthcentralus.openai.azure.com/",
+  azure_endpoint = "https://genainorthcentralus.openai.azure.com/openai/deployments/gpt-4odeployment/chat/completions?api-version=2024-02-15-preview",
   api_key = "b5d5b5ea2ebd471b88b631a34ab7d52",
   api_version = "2024-02-15-preview"
 )
