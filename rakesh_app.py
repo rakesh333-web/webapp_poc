@@ -1,7 +1,9 @@
 import requests
+import streamlit as st
+st.title("gpt responce")
 
 # Replace with your Azure OpenAI API key and endpoint
-API_KEY = ""
+API_KEY = "b5d5b5ea2ebd471b88b631a34ab7d52"
 ENDPOINT = "https://your_endpoint_name.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-02-15-preview"
 
 # Define headers for API requests
@@ -30,4 +32,4 @@ response.raise_for_status()
 # Extract and print the response
 result = response.json()
 generated_code = result.get('choices', [{}])[0].get('message', {}).get('content', 'No code generated.')
-print(generated_code)
+st.write(generated_code)
