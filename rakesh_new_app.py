@@ -4,15 +4,15 @@ from openai import AzureOpenAI
 import streamlit as st
 
 client = AzureOpenAI(
-  azure_endpoint = (""),
-  api_key = ("AZURE_OPENAI_API_KEY"),
-  api_version = "2024-06-01"
+  azure_endpoint = "https://genainorthcentralus.openai.azure.com/",
+  api_key = "b5d5b5ea2ebd471b88b631a34ab7d52",
+  api_version = "2024-02-15-preview"
 )
 st.title("gpt responce")
 response = client.chat.completions.create(
-    model = "", # model = "Custom deployment name you chose for your fine-tuning model"
+    model = "gpt-4odeployment", # model = "Custom deployment name you chose for your fine-tuning model"
     messages = [
-        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "system", "content": "You are an AI assistant that helps with code generation"},
         {"role": "user", "content": "Does Azure OpenAI support customer managed keys?"},
         {"role": "assistant", "content": "Yes, customer managed keys are supported by Azure OpenAI."},
         {"role": "user", "content": "Do other Azure AI services support this too?"}
