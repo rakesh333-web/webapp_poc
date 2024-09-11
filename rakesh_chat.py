@@ -23,7 +23,7 @@ payload = {
             ]
         }
     ],
-    "temperature": 0.7,
+    "temperature": 0.01,
     "top_p": 0.95,
     "max_tokens": 800
 }
