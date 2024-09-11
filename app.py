@@ -72,7 +72,8 @@ def process_client(client, df):
     
     # Handle the response as needed (e.g., print or process)
     result = response.json()
-    return result  # Print the response to check the output
+    content = result.get('choices', [{}])[0].get('message', {}).get('content', 'No content found')
+    return content  # Print the response to check the output
 
     """
     if z:
