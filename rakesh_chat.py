@@ -39,7 +39,8 @@ except requests.RequestException as e:
     raise SystemExit(f"Failed to make the request. Error: {e}")
 
 # Handle the response as needed (e.g., print or process)
-result = response.text
+result = response.json()
+
 st.write(result)
 
 
