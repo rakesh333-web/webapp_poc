@@ -41,7 +41,7 @@ except requests.RequestException as e:
 # Handle the response as needed (e.g., print or process)
 result = response.json()
 content = result.get('choices', [{}])[0].get('message', {}).get('content', 'No content found')
-st.dataframe(content)  
+st.write(content)  
 
 
 
