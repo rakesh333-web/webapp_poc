@@ -22,15 +22,8 @@ def convert(row):
 
 
 # Initialize Hugging Face clients
-vishesh_client = InferenceClient("imvishesh007/gemma-Code-Instruct-Finetune-test",token="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")
-madhavi_client = InferenceClient("imvishesh007/gemma-Code-Instruct-Finetune-test",token="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")
-rakesh_client = InferenceClient("bandi333/gemma-Code-Instruct-Finetune-test-v0.0",token="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")
-models = {
-    "vishesh_client": vishesh_client,
-    "rakesh_client": rakesh_client,      # Add your token and model for rakesh_client if needed
-    "madhavi_client": madhavi_client      # Add your token and model for madhavi_client if needed
-}
-def process_client(client, df):
+
+def process_client(df):
     x = ""
     options = df['english sentence'].tolist()
     z = st.radio('Select a sentence:', options)
@@ -55,7 +48,7 @@ def process_client(client, df):
                 ]
             }
         ],
-        "temperature": 0.7,
+        "temperature": 0.01,
         "top_p": 0.95,
         "max_tokens": 800
     }
@@ -73,25 +66,7 @@ def process_client(client, df):
     # Handle the response as needed (e.g., print or process)
     result = response.json()
     content = result.get('choices', [{}])[0].get('message', {}).get('content', 'No content found')
-    return content  # Print the response to check the output
-
-    """
-    if z:
-        for message in client.chat_completion(messages=[{"role": "user", "content": z}], max_tokens=500, stream=True):
-            x += message.choices[0].delta.content
-
-    return x
-    """
-    """
-    x = ""
-    for i in range(df.shape[0]):
-        z = st.checkbox(df['english sentence'][i])
-        if z:
-            for message in client.chat_completion(messages=[{"role": "user", "content": df['english sentence'][i]}], max_tokens=500, stream=True):
-                print(message.choices[0].delta.content, end="")
-                x += message.choices[0].delta.content
-    return x
-    """
+   
 
 def main():
     st.set_page_config(layout="wide", page_title="MODELS")
@@ -123,17 +98,16 @@ def main():
             df['english sentence'] = df['english sentence'].apply(lambda x: promtg + x)
 
             # Process selected model
-            if selected_model in models and models[selected_model] is not None:
-                st.subheader("Interact with Model")
-                x = process_client(models[selected_model], df)
-            else:
-                st.warning(f"Model {selected_model} is not configured or available.")
+            
+            st.subheader("Interact with Model")
+            x = process_client(df)
+            
 
             
             
 
             # Display final translated and cleaned output
-            st.subheader("Final Translated and Cleaned Output")
+            st.subheader("Final Output")
             st.write(x)
 
         except Exception as e:
