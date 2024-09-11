@@ -1,7 +1,7 @@
 from huggingface_hub import InferenceClient
 import streamlit as st
 import pandas as pd
-from googletrans import Translator
+
 import re
 import string
 import os
@@ -15,16 +15,10 @@ def convert(row):
     return f"Force {v} on {s} pin and measure the voltage on the same {s} pin with SPU with range of {row['Lower Limit']} and {row['Upper Limit']}."
 
 # Function to clean text
-def clean_text(text):
-    printable_text = ''.join(char for char in text if char in string.printable)  # Remove non-printable characters
-    cleaned_text = re.sub(r'[^\x00-\x7F]', '', printable_text)  # Remove non-ASCII characters
-    return cleaned_text
+
 
 # Function to translate text to English
-def translate_to_english(text, src_lang='auto'):
-    translator = Translator()
-    translation = translator.translate(text, src=src_lang, dest='en')
-    return translation.text
+
 
 # Initialize Hugging Face clients
 vishesh_client = InferenceClient("imvishesh007/gemma-Code-Instruct-Finetune-test",token="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")
@@ -128,14 +122,13 @@ def main():
 
             # Process selected model
             if selected_model in models and models[selected_model] is not None:
-                st.subheader("Interact with Hugging Face Model")
+                st.subheader("Interact with Model")
                 x = process_client(models[selected_model], df)
             else:
                 st.warning(f"Model {selected_model} is not configured or available.")
 
-            # Translate and clean the final output
-            x = translate_to_english(x)
-            x = clean_text(x)
+            
+            
 
             # Display final translated and cleaned output
             st.subheader("Final Translated and Cleaned Output")
