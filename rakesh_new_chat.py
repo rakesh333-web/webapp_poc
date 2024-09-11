@@ -3,7 +3,7 @@ import requests
 import base64
 
 # Configuration
-API_KEY = "YOUR_API_KEY"
+API_KEY = "b5d5b5ea2ebd471b88b631a34ab7d522"
 headers = {
     "Content-Type": "application/json",
     "api-key": API_KEY,
@@ -26,7 +26,7 @@ payload = {
       "content": [
         {
           "type": "text",
-          "text": "using PS instrument, force all pins to 0V and then Force -0.010 mA to the pin under test LED2 and measure the voltage (MV)"
+          "text":  z
         }
       ]
     },
@@ -45,4 +45,4 @@ except requests.RequestException as e:
     raise SystemExit(f"Failed to make the request. Error: {e}")
 
 # Handle the response as needed (e.g., print or process)
-print(response.json())
+result=response.json()
