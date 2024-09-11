@@ -1,4 +1,4 @@
-from huggingface_hub import InferenceClient
+
 import streamlit as st
 import pandas as pd
 
