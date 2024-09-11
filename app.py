@@ -103,7 +103,7 @@ def main():
             st.dataframe(df['english sentence'])
 
             # Add prefix to English sentences
-            promtg = "generate code "
+            promtg = ""
             df['english sentence'] = df['english sentence'].apply(lambda x: promtg + x)
 
             # Process selected model
