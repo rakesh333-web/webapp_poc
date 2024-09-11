@@ -4,9 +4,9 @@ import base64
 import streamlit as st
 
 # Configuration
-API_KEY = ""
-IMAGE_PATH = "YOUR_IMAGE_PATH"
-encoded_image = base64.b64encode(open(IMAGE_PATH, 'rb').read()).decode('ascii')
+API_KEY = "b5d5b5ea2ebd471b88b631a34ab7d522"
+#IMAGE_PATH = "YOUR_IMAGE_PATH"
+#encoded_image = base64.b64encode(open(IMAGE_PATH, 'rb').read()).decode('ascii')
 headers = {
     "Content-Type": "application/json",
     "api-key": API_KEY,
