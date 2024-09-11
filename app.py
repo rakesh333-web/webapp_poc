@@ -73,7 +73,7 @@ def main():
     st.set_page_config(layout="wide", page_title="MODELS")
 
     # Sidebar UI for uploading file and selecting model
-    image_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfM34DG2u5fZI_pslFvrMpPKNNRBtbknBlVg&s"
+    image_url = "./images.png"
     st.title("ATE Test code Generation")
     st.sidebar.image(image_url, width=200)
     uploaded_f = st.sidebar.file_uploader("Upload your Excel file", type=["csv"])
