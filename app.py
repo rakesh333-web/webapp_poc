@@ -76,7 +76,7 @@ def main():
     st.title("ATE Test code Generation")
     st.sidebar.image(image_url, width=200)
     uploaded_f = st.sidebar.file_uploader("Upload your Excel file", type=["csv"])
-    selected_model = st.sidebar.selectbox("Choose your model", options=list(models.keys()))
+    
 
     if uploaded_f is not None:
         try:
