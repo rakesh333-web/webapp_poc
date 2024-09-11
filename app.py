@@ -75,7 +75,7 @@ def main():
     # Sidebar UI for uploading file and selecting model
     image_url = "./images.png"
     st.title("ATE Test code Generation")
-    st.sidebar.image(image_url, width=200)
+    st.sidebar.image(image_url, width=300)
     uploaded_f = st.sidebar.file_uploader("Upload your Excel file", type=["csv"])
     
 
