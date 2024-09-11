@@ -12,7 +12,8 @@ import base64
 def convert(row):
     s = row['Pin of Interest']
     v = row[s]
-    return f"Force {v} on {s} pin and measure the voltage on the same {s} pin with SPU with range of {row['Lower Limit']} and {row['Upper Limit']}."
+    #Use the PS instrument. Force -0.010 mA current to LED2 pin and force 0.0V to all the pins. Measure voltage on LED2 pin and verify that measured voltage value is in between -1V to 0.2V. 
+    return f"use ps instrument.Force {v} on {s} pin and force 0.0V to all the pins.measure the voltage on the same {s} pin and verify that measured voltage value is in between {row['Lower Limit']} and {row['Upper Limit']}."
 
 # Function to clean text
 
@@ -117,7 +118,7 @@ def main():
             st.dataframe(df['english sentence'])
 
             # Add prefix to English sentences
-            promtg = "code for the given requirement using customlibrary in cpp for the pin configuration test case using psinstrument "
+            promtg = ""
             df['english sentence'] = df['english sentence'].apply(lambda x: promtg + x)
 
             # Process selected model
