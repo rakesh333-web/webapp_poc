@@ -48,7 +48,7 @@ def process_client(df):
                 ]
             }
         ],
-        "temperature": 0.01,
+        "temperature": 0,
         "top_p": 0.95,
         "max_tokens": 800
     }
