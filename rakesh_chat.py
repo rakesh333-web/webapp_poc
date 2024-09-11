@@ -3,7 +3,7 @@ import requests
 import base64
 import streamlit as st
 API_KEY = "b5d5b5ea2ebd471b88b631a34ab7d522"
-z=" using PS instrument, force all pins to 0V and then Force -0.010 mA to the pin under test LED2 and measure the voltage (MV)"
+z="Use the PS instrument. Force -0.010 mA current to LED2 pin and force 0.0V to all the pins. Measure voltage on LED2 pin and verify that measured voltage value is in between -1V to 0.2V. "
 st.title("gpt responce")
 headers = {
     "Content-Type": "application/json",
