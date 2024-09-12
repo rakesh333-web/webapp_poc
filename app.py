@@ -41,7 +41,7 @@ def process_client(df):
           "content": [
             {
               "type": "text",
-              "text": "You are an AI assistant for code generation. "
+              "text": "You are an efficient cpp developer, writing cpp program for an Automated Test Equipment"
             }
           ]
         },
