@@ -41,7 +41,7 @@ def process_client(df):
           "content": [
             {
               "type": "text",
-              "text": "You are an efficient cpp developer, writing cpp program for an Automated Test Equipment"
+              "text": "You are a technical support agent for testing equipment. Your primary goal is to help users with various test procedures and code generation tasks. You provide clear, precise instructions and code snippets for users to execute their tests in c++ "
             }
           ]
         },
