@@ -58,7 +58,7 @@ def process_client(df):
       "max_tokens": 800
     }
     
-    ENDPOINT = "https://genainorthcentralus.openai.azure.com/openai/deployments/gpt-4odeployment/chat/completions?api-version=2024-02-15-preview"
+    ENDPOINT = "https://genainorthcentralus.openai.azure.com/openai/deployments/GPT4-O-ATE/chat/completions?api-version=2024-02-15-preview"
     
     # Send request
     try:
