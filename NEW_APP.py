@@ -11,7 +11,7 @@ def convert(row):
     s = row['Pin of Interest']
     v = row[s]
     #Use the PS instrument. Force -0.010 mA current to LED2 pin and force 0.0V to all the pins. Measure voltage on LED2 pin and verify that measured voltage value is in between -1V to 0.2V. 
-    return f"using ps instrument.Force {v} on {s} pin and force 0.0V to all the pins.measure the voltage on the same {s} pin and verify that measured voltage value is in between {row['Lower Limit']} and {row['Upper Limit']}."
+    return f"Design a script using APU32 instruments for continuity testing on the {s} pin. Force {v} current on {s} pin  and set other pins to 0.0V. Confirm the voltage on {s} is between {row['Lower Limit']} and {row['Upper Limit']}."
 
 # Function to clean text
 
@@ -39,7 +39,7 @@ def process_client(df):
           "content": [
             {
               "type": "text",
-              "text": "You are a technical support agent for testing equipment. Your primary goal is to help users with various test procedures and code generation tasks. You provide clear, precise instructions and code snippets for users to execute their tests in c++ "
+              "text": "You are a technical support agent for testing equipment. Your primary goal is to help users with various test procedures and code generation tasks. You provide clear, precise instructions and code snippets for users to execute their tests  "
             }
           ]
         },
