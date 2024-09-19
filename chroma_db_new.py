@@ -8,9 +8,9 @@ client = chromadb.Client()
 #model = SentenceTransformer('all-mpnet-base-v2')  # Initialize a SentenceTransformer model
 
 openai.api_type = "azure"
-openai.api_base = "https://<your-endpoint>.openai.azure.com/"
+openai.api_base = "https://genaifinetuning.openai.azure.com/"
 openai.api_version = "2023-05-15"  # Use the appropriate API version
-openai.api_key = "<your-api-key>"
+openai.api_key = "a27d6ecbcedd487bb0499af0b6544676"
 # Check if the collection exists and get or create.
 collection = client.get_or_create_collection("apu32_functions_in_detail")
 
@@ -23,7 +23,7 @@ for i, item in enumerate(data):  # Use enumerate to get unique IDs for each func
     # Convert the 'description' field to embeddings
     response = openai.Embedding.create(
         input=item["description"],
-        engine="text-embedding-ada-002"  # Specify the Azure model
+        engine="ate-test-embedding-ada"  # Specify the Azure model
     )
 
     # Extract the embedding from the response
@@ -74,9 +74,9 @@ print("Data successfully stored in ChromaDB!")
 import chromadb
 import openai
 openai.api_type = "azure"
-openai.api_base = "https://<your-endpoint>.openai.azure.com/"
+openai.api_base = "https://genaifinetuning.openai.azure.com/"
 openai.api_version = "2023-05-15"  # Use the appropriate API version
-openai.api_key = "<your-api-key>"
+openai.api_key = "a27d6ecbcedd487bb0499af0b6544676"
 # Initialize ChromaDB client and model
 client = chromadb.Client()
 #model = SentenceTransformer('all-mpnet-base-v2')  # You can also use all-mpnet-base-v2 if required
@@ -89,7 +89,7 @@ collection = client.get_collection("apu32_functions_in_detail")
 search_query = "list the parameter of lwait()"
 response = openai.Embedding.create(
     input=search_query,
-    engine="text-embedding-ada-002"  # Specify the Azure model
+    engine="ate-test-embedding-ada"  # Specify the Azure model
 )
 
 # Encode the search query into an embedding
