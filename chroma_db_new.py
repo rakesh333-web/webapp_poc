@@ -106,6 +106,7 @@ print(results)
 # Display search results
 # results["metadatas"] is a list of lists, so you need to iterate through the first list then access elements of the inner list.
 # Check if 'description' exists in the metadata before accessing it
+"""
 for result in results["metadatas"][0]:
     #print (result)
     print(f"Function Name: {result['function']}") # Changed 'name' to 'function'
@@ -115,3 +116,4 @@ for result in results["metadatas"][0]:
     print(f"Returns: {result['returns']}")
     print(f"Usage: {result['usage']}")
     print("-" * 50)
+"""
