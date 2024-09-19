@@ -1,12 +1,16 @@
 # Install the sentence_transformers library
 import chromadb
-from sentence_transformers import SentenceTransformer  # Import the SentenceTransformer class
+import openai # Import the SentenceTransformer class
 import json
 
 # Initialize ChromaDB client and embedding model
 client = chromadb.Client()
-model = SentenceTransformer('all-mpnet-base-v2')  # Initialize a SentenceTransformer model
+#model = SentenceTransformer('all-mpnet-base-v2')  # Initialize a SentenceTransformer model
 
+openai.api_type = "azure"
+openai.api_base = "https://<your-endpoint>.openai.azure.com/"
+openai.api_version = "2023-05-15"  # Use the appropriate API version
+openai.api_key = "<your-api-key>"
 # Check if the collection exists and get or create.
 collection = client.get_or_create_collection("apu32_functions_in_detail")
 
@@ -17,7 +21,14 @@ with open('/content/vectordb_new_data.json', 'r') as f:
 # Iterate over each function, generate embeddings, and store in Chroma DB
 for i, item in enumerate(data):  # Use enumerate to get unique IDs for each function
     # Convert the 'description' field to embeddings
-    embedding = model.encode(item["description"]).tolist()  # Convert embedding to list
+    response = openai.Embedding.create(
+        input=item["description"],
+        engine="text-embedding-ada-002"  # Specify the Azure model
+    )
+
+    # Extract the embedding from the response
+    embedding = response['data'][0]['embedding']
+    #embedding = model.encode(item["description"]).tolist()  # Convert embedding to list
 
     # Convert the list fields like 'parameters', 'availability', 'examples', etc., into strings
     parameters_str = ', '.join([param["name"] for param in item.get("parameters", [])])
