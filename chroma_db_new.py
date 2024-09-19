@@ -95,7 +95,7 @@ response = openai.Embedding.create(
 # Encode the search query into an embedding
 #query_embedding = model.encode(search_query).tolist()  # Convert to list
 query_embedding = response['data'][0]['embedding']
-query_embedding = query_embedding.tolist() 
+
 # Perform the search in ChromaDB
 results = collection.query(
     query_embeddings=[query_embedding],  # Pass the query embedding
