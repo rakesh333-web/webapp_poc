@@ -15,7 +15,7 @@ openai.api_key = "a27d6ecbcedd487bb0499af0b6544676"
 collection = client.get_or_create_collection("apu32_functions_in_detail")
 
 # Load JSON data
-with open('/content/vectordb_new_data.json', 'r') as f:
+with open('./vectordb_new_data.json', 'r') as f:
     data = json.load(f)
 
 # Iterate over each function, generate embeddings, and store in Chroma DB
