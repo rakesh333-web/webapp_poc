@@ -111,7 +111,9 @@ def main():
     # Sidebar UI for uploading file and selecting model
     image_url = "./images.png"
     #st.sidebar.image(image_url, width=300)
-    st.sidebar.markdown(f"""<img src="{image_url}" width="300" height="100" style="object-fit: cover;">""", unsafe_allow_html=True)
+    st.sidebar.markdown(f"""
+    <img src="{image_url}" width="300" height="100" style="object-fit: cover;">
+    """, unsafe_allow_html=True)
     st.title("ATE TEST CODE GENERATION")
     uploaded_f = st.sidebar.file_uploader("Upload your Excel file", type=["csv"])
     if uploaded_f is not None:
