@@ -110,12 +110,7 @@ def main():
     st.set_page_config(layout="wide", page_title="MODELS")
     # Sidebar UI for uploading file and selecting model
     image_url = "./images.png"
-    st.sidebar.image(
-        image_url,
-        use_column_width=True,
-        width=300,
-        height=200
-    )
+    st.sidebar.image(image_url,width=300)
     
     st.title("ATE TEST CODE GENERATION")
     uploaded_f = st.sidebar.file_uploader("Upload your Excel file", type=["csv"])
