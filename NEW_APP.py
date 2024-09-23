@@ -109,7 +109,7 @@ Usage: This utility returns the average of the voltage measurement readings, as 
 def main():
     st.set_page_config(layout="wide", page_title="MODELS")
     # Sidebar UI for uploading file and selecting model
-    image_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfM34DG2u5fZI_pslFvrMpPKNNRBtbknBlVg&s"
+    image_url = "./images.png"
     st.sidebar.image(image_url, width=300)
     st.title("ATE TEST CODE GENERATION")
     uploaded_f = st.sidebar.file_uploader("Upload your Excel file", type=["csv"])
