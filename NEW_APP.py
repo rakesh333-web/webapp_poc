@@ -10,8 +10,9 @@ import base64
 def convert(row):
     s = row['Pin of Interest']
     v = row[s]
+    #using APU32 instrument, force all pins to 0V and then Force -199.9 mA to the pin under test ETS and measure the voltage (MV)? set voltage and current to 0      measure the voltage (MV) and compare the results are in between -3.5V to 1.2V
     #Use the PS instrument. Force -0.010 mA current to LED2 pin and force 0.0V to all the pins. Measure voltage on LED2 pin and verify that measured voltage value is in between -1V to 0.2V. 
-    return f"Design a script using APU32 instruments for continuity testing on the {s} pin. Force {v} current on {s} pin  and set other pins to 0.0V. Confirm the voltage on {s} is between {row['Lower Limit']} and {row['Upper Limit']}."
+    return f"using APU32 instruments,force all pins to 0V and then Force {v}mA to the pin under test {s} pin and for continuity testing on the {s} pin.measure the voltage (MV) and compare the results are in between {row['Lower Limit']} and {row['Upper Limit']},set voltage and current to 0 ."
 
 # Function to clean text
 
