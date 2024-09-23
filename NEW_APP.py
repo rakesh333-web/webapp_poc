@@ -137,7 +137,7 @@ def main():
             x = process_client(df)
             # Display final translated and cleaned output
             st.subheader("GENERATED CODE IN C++")
-            st.dataframe(x)
+            st.write(x)
 
         except Exception as e:
             st.error(f"Error reading CSV file: {e}")
