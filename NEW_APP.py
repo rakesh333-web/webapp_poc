@@ -26,7 +26,7 @@ def process_client(df):
     x = ""
     options = df['english sentence'].tolist()
     z = st.radio('Select a sentence:', options)
-    API_KEY = "b5d5b5ea2ebd471b88b631a34ab7d522"
+    API_KEY = ""
     headers = {
         "Content-Type": "application/json",
         "api-key": API_KEY,
