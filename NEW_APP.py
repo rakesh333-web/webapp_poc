@@ -12,7 +12,7 @@ def convert(row):
     v = row[s]
     #using APU32 instrument, force all pins to 0V and then Force -199.9 mA to the pin under test ETS and measure the voltage (MV)? set voltage and current to 0      measure the voltage (MV) and compare the results are in between -3.5V to 1.2V
     #Use the PS instrument. Force -0.010 mA current to LED2 pin and force 0.0V to all the pins. Measure voltage on LED2 pin and verify that measured voltage value is in between -1V to 0.2V. 
-    return f"using APU32 instruments,force all pins to 0V and then Force {v} to the pin under test {s} pin and measure the voltage (MV) and compare the results are in between {row['Lower Limit']} and {row['Upper Limit']},set voltage and current to 0 ."
+    return f"using APU32 instruments,force all pins to 0V and then Force {v} to the pin under test {s} pin and measure the voltage (MV) and compare the results are in between {row['Lower Limit']}V and {row['Upper Limit']}V,set voltage and current to 0 ."
 
 # Function to clean text
 
