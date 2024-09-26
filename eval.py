@@ -20,7 +20,7 @@ headers = {
  
 # Load the Excel file
 
-file_path = 'path_to_your_file.xlsx'  # Update with the actual file path
+file_path = './test_evaluation_432.xlsx'  # Update with the actual file path
 
 df = pd.read_excel(file_path, sheet_name='Sheet1')
  
