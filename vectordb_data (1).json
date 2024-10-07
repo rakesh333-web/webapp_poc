@@ -1,0 +1,499 @@
+[
+{
+  "function": "apu32mi()",
+  "description": "This utility measures a current on the specified APU-32 pins and returns the current reading in milliamps.",
+  "availability": "ETS-800 (Release 2013A)",
+  "declarations": {
+    "return_type": "double",
+    "name": "apu32mi",
+    "parameters": [
+      "const char *PinName",
+      "const double SampleDelay",
+      "const int IGain",
+      "const int NumSamples",
+      "const int Site"
+    ]
+  },
+  "format": "status = apu32mi(PinName, IGain, NumSamples, SampleDelay, Site);",
+  "parameters": [
+    {
+      "name": "PinName",
+      "description": "The name of the pin or group of pins to be programmed. The name is a string defined in the Pin Map Editor (PME). If not using the PME, the default format is APU32_#, where # is the pin number defined in config.ets."
+    },
+    {
+      "name": "IGain",
+      "description": "The current measure gain. Valid values:",
+      "valid_values": [
+        "APU32_MI_1X = 3",
+        "APU32_MI_10X = 4",
+        "APU32_SHARED_MEASURE = 5"
+      ]
+    },
+    {
+      "name": "NumSamples",
+      "description": "The number of samples to average. Valid range is 1 to 32768."
+    },
+    {
+      "name": "SampleDelay",
+      "description": "The time in microseconds to delay between each sample. Valid range is 5 to 10000."
+    },
+    {
+      "name": "Site",
+      "description": "Optional. The sites to program for multisite testing. Valid values:",
+      "valid_values": [
+        "0 to MS_MAX_SITES: Program the specified pins to a single site number.",
+        "MS_IGNORE_SITES (-3): Program all specified pins regardless of site assignment.",
+        "MS_NO_SITE (-2): Program all specified pins assigned to the No Site column in the Pin Map Editor.",
+        "MS_ALL (-1): Program all specified pins assigned to enabled sites or the No Site column. Does not program pins assigned to disabled sites."
+      ]
+    }
+  ],
+  "returns": {
+    "description": "This utility returns the average measured value in mA (status). If a failure occurs, it returns FLT_MAX.",
+    "group_measurements": "For group measurements, the utility returns the value from the first APU-32 pin in a group. Use groupgetresults() to get the results from a group measurement.",
+    "on_error": "See onerr() for a list of error codes."
+  },
+  "usage": "This utility returns the average of the current measurement readings. The NumSamples parameter sets the number of ADC triggers, and SampleDelay specifies the time interval between samples. Each APU-32 pin has its own ADC, so each pin can be clocked individually. The pin must be in a forcing mode.",
+  "examples": {
+    "single_instrument": {
+      "description": "Simple APU-32 measurement and sharing the ADC for voltage and current measurement.",
+      "code": [
+        "double mv_value;",
+        "double mi_value;",
+        "// Simple APU-32 measurement",
+        "mi_value = apu32mi('MyPin', APU32_MI_1X, 128, 20);",
+        "// Sharing ADC with adjacent pin for voltage and current",
+        "mv_value = apu32mv('MyPin', APU32_MV_1X, 128, 20, APU32_MI_1X);",
+        "mi_value = apu32mi('MyPin', APU32_SHARED_MEASURE, 128, 20);",
+        "return(msSiteStat(MS_ALL));"
+      ]
+    },
+    "grouped_instruments": {
+      "description": "Grouped instruments setup using the Pin Map Editor.",
+      "code": [
+        "double mv_value;",
+        "double mi_value;",
+        "RESULTS_STR mv_results[NUM_SITES];",
+        "RESULTS_STR mi_results[NUM_SITES];",
+        "// Simple APU-32 measurement",
+        "mi_value = apu32mi('MyGroupOfPins', APU32_MI_1X, 128, 20);",
+        "groupgetresults(mi_results, NUM_SITES);",
+        "// Sharing ADC with adjacent pin for voltage and current",
+        "mv_value = apu32mv('MyGroupOfPins', APU32_MV_1X, 128, 20, APU32_MI_1X);",
+        "groupgetresults(mv_results, NUM_SITES);",
+        "mi_value = apu32mi('MyGroupOfPins', APU32_SHARED_MEASURE, 128, 20);",
+        "groupgetresults(mi_results, NUM_SITES);",
+        "return(msSiteStat(MS_ALL));"
+      ]
+    },
+    "preconnect_example": {
+      "description": "Preconnecting the pin's ADC to measure current and voltage.",
+      "code": [
+        "// Preconnect the pin's ADC to measure current with 10X gain",
+        "apu32adcmode('MyPins', APU32_PRECONNECT_MI_10X, 1);",
+        "apu32set('MyPins', APU32_FV, 0, APU32_10V, APU32_10MA);",
+        "apu32mi('MyPins', APU32_MI_10X, 100, 13);",
+        "// Preconnect for voltage and shared ADC for current",
+        "apu32adcmode('MyPins', APU32_PRECONNECT_MV_10X, 1, APU32_PRECONNECT_MI_1X);",
+        "apu32set('MyPins', APU32_FV, 0, APU32_10V, APU32_10MA);",
+        "apu32mv('MyPins', APU32_MV_1X, 100, 13, APU32_MI_1X);",
+        "apu32mi('MyPins', APU32_SHARED_MEASURE, 100, 13);",
+        "return TRUE;"
+      ]
+    }
+  }
+}
+,
+  {
+  "function": "apu32mv()",
+  "description": "This utility measures voltage on the specified APU-32 pins and returns the voltage reading in volts.",
+  "availability": "ETS-800 (Release 2013A)",
+  "declarations": {
+    "return_type": "double",
+    "name": "apu32mv",
+    "parameters": [
+      "const char *PinName",
+      "const double SampleDelay",
+      "const int IGainShared",
+      "const int Mode",
+      "const int NumSamples",
+      "const int Site",
+      "const int VGain"
+    ]
+  },
+  "format": "value = apu32mv(PinName, VGain, NumSamples, SampleDelay, IGainShared, Mode, Site);",
+  "parameters": [
+    {
+      "name": "PinName",
+      "description": "The name of the pin or group of pins to be programmed. The name is a string defined in the Pin Map Editor (PME). If not using the PME, the default format is APU32_#, where # is the pin number defined in config.ets."
+    },
+    {
+      "name": "VGain",
+      "description": "The voltage measure gain.",
+      "valid_values": [
+        "APU32_MV_1X (Default)",
+        "APU32_MV_10X"
+      ]
+    },
+    {
+      "name": "NumSamples",
+      "description": "The number of samples to average. Valid range is 1 to 32768. Default value is 1."
+    },
+    {
+      "name": "SampleDelay",
+      "description": "The time in microseconds to delay between each sample. Valid range is 5 to 10000. Default value is 10."
+    },
+    {
+      "name": "IGainShared",
+      "description": "The shared current measurement gain for ADC borrowing (simultaneous measurement).",
+      "valid_values": [
+        "APU32_MI_1X",
+        "APU32_MI_10X"
+      ]
+    },
+    {
+      "name": "Mode",
+      "description": "The measurement mode.",
+      "valid_values": [
+        "APU32_NORMAL (Default)",
+        "APU32_KELVIN"
+      ]
+    },
+    {
+      "name": "Site",
+      "description": "Optional. The sites to program for multisite testing. Valid values:",
+      "valid_values": [
+        "0 to MS_MAX_SITES: Program the specified pins to a single site number.",
+        "MS_IGNORE_SITES (-3): Program all specified pins regardless of site assignment.",
+        "MS_NO_SITE (-2): Program all specified pins assigned to the No Site column in the Pin Map Editor.",
+        "MS_ALL (-1): Program all specified pins assigned to enabled sites or the No Site column. Does not program pins assigned to disabled sites."
+      ]
+    }
+  ],
+  "returns": {
+    "description": "This utility returns the average measured value in volts (value). If a failure occurs, it returns FLT_MAX.",
+    "group_measurements": "For group measurements, the utility returns the value from the first APU-32 pin in a group. Use groupgetresults() to get the results from a group measurement.",
+    "on_error": "See onerr() for a list of error codes."
+  },
+  "usage": "This utility returns the average of the voltage measurement readings, as defined by the NumSamples parameter, which sets the number of ADC triggers, and SampleDelay specifies the time interval between samples. Each APU-32 pin has its own ADC, so each pin can be clocked individually. The pin must be in a forcing mode.",
+  "examples": {
+    "single_instrument": {
+      "description": "Simple APU-32 measurement and sharing the ADC for voltage and current measurement.",
+      "code": [
+        "double mv_value;",
+        "double mi_value;",
+        "double v;",
+        "double i;",
+        "apu32set('MyPin', APU32_FI, 0.025, APU32_10V, APU32_100UA, APU32_PIN_TO_VI, APU32_KELVIN_OFF, MS_ALL);",
+        "// Simple APU-32 measurement",
+        "mv_value = apu32mv('MyPin', APU32_MV_1X, 128, 20, APU32_NORMAL);",
+        "// Sharing ADC with adjacent pin for voltage and current",
+        "mv_value = apu32mv('MyPin', APU32_MV_1X, 128, 20, APU32_MI_1X, APU32_NORMAL);",
+        "mi_value = apu32mi('MyPin', APU32_SHARED_MEASURE, 128, 20);",
+        "apu32set('MyPin', APU32_FI, 0.025, APU32_10V, APU32_100UA, APU32_PIN_TO_VI, APU32_KELVIN_PIN_150K_ON);",
+        "// Expect i = 25 uA and v = 3.75 V",
+        "v = apu32mv('MyPin', APU32_MV_1X, 128, 20, APU32_NORMAL);",
+        "i = apu32mi('MyPin', APU32_MI_1X, 128, 20);",
+        "i *= 1000;",
+        "if(v < 3.7 || v > 3.8) { /* fail */ }",
+        "if(i < 24 || i > 26) { /* fail */ }",
+        "apu32set('MyPin', APU32_FI, 0.025, APU32_10V, APU32_100UA, APU32_PIN_TO_VI, APU32_KELVIN_BANK_LO_ON);",
+        "// Expect v = 0.1 to 0.3 V due to probe impedance",
+        "v = apu32mv('MyPin', APU32_MV_1X, 128, 20, APU32_MI_1X, APU32_KELVIN);",
+        "if(v < 0.1 || v > 0.3) { /* fail */ }",
+        "apu32set('MyPin', APU32_FI, 0.025, APU32_10V, APU32_100UA, APU32_PIN_TO_VI, APU32_KELVIN_BANK_HI_ON);",
+        "// Expect v = 0.7 to 0.9 V",
+        "v = apu32mv('MyPin', APU32_MV_1X, 128, 20, APU32_MI_1X, APU32_KELVIN);",
+        "if(v < 0.7 || v > 0.9) { /* fail */ }",
+        "return(msSiteStat(MS_ALL));"
+      ]
+    },
+    "grouped_instruments": {
+      "description": "Grouped instruments setup using the Pin Map Editor.",
+      "code": [
+        "double mv_value;",
+        "double mi_value;",
+        "RESULTS_STR mv_results[NUM_SITES];",
+        "RESULTS_STR mi_results[NUM_SITES];",
+        "apu32set('MyGroupOfPins', APU32_FI, 0.025, APU32_10V, APU32_100UA, APU32_PIN_TO_VI, APU32_KELVIN_PIN_150K_ON);",
+        "// Simple APU-32 measurement",
+        "mv_value = apu32mv('MyGroupOfPins', APU32_MV_1X, 128, 20);",
+        "groupgetresults(mv_results, NUM_SITES);",
+        "// Sharing ADC with adjacent pin for voltage and current",
+        "groupgetresults(mv_results, NUM_SITES);",
+        "mv_value = apu32mv('MyGroupOfPins', APU32_MV_1X, 128, 20, APU32_MI_1X);",
+        "groupgetresults(mv_results, NUM_SITES);",
+        "mi_value = apu32mi('MyGroupOfPins', APU32_SHARED_MEASURE, 128, 20);",
+        "groupgetresults(mi_results, NUM_SITES);",
+        "return(msSiteStat(MS_ALL));"
+      ]
+    },
+    "preconnect_example": {
+      "description": "Preconnecting the pin's ADC to measure current and voltage.",
+      "code": [
+        "// Preconnect the pin's ADC to measure current with 10X gain",
+        "apu32adcmode('MyPins', APU32_PRECONNECT_MI_10X, 1);",
+        "apu32set('MyPins', APU32_FV, 0, APU32_10V, APU32_10MA);",
+        "apu32mi('MyPins', APU32_MI_10X, 100, 13);",
+        "// Preconnect for voltage and shared ADC for current",
+        "apu32adcmode('MyPins', APU32_PRECONNECT_MV_10X, 1, APU32_PRECONNECT_MI_1X);",
+        "apu32set('MyPins', APU32_FV, 0, APU32_10V, APU32_10MA);",
+        "apu32mv('MyPins', APU32_MV_1X, 100, 13, APU32_MI_1X);",
+        "apu32mi('MyPins', APU32_SHARED_MEASURE, 100, 13);",
+        "return TRUE;"
+      ]
+    }
+  }
+}
+,
+  {
+  "function": "apu32set()",
+  "description": "This utility sets the mode, forcing value, voltage range, and current range for the specified pins. This utility also closes relays belonging to an APU-32 pin or group of pins. You must call this utility before calling other APU-32 utilities.",
+  "availability": "ETS-800 (Release 2013A)",
+  "declarations": {
+    "return_type": "int",
+    "name": "apu32set",
+    "parameters": [
+      "const char *PinBusList",
+      "const double Value",
+      "const int Mode",
+      "const int Vrange",
+      "const int Irange",
+      "const int Connect",
+      "const int ConnectMode",
+      "const int Site"
+    ]
+  },
+  "format": "status = apu32set(PinBusList, Mode, Value, Vrange, Irange, Connect, ConnectMode, Site);",
+  "parameters": [
+    {
+      "name": "PinBusList",
+      "description": "The name of the pin, group of pins, or bus. The name can be a string defined in the Pin Map Editor (PME), or a list of hardware bus names separated by commas."
+    },
+    {
+      "name": "Mode",
+      "description": "The mode for the pins being programmed.",
+      "valid_values": [
+        "APU32_STANDBY",
+        "APU32_OFF",
+        "APU32_FV",
+        "APU32_FI",
+        "APU32_FV_PATTERN",
+        "APU32_FI_PATTERN"
+      ]
+    },
+    {
+      "name": "Value",
+      "description": "The value to force in volts for voltage modes and in milliamps for current modes."
+    },
+    {
+      "name": "Vrange",
+      "description": "The voltage range for the pins being programmed.",
+      "valid_values": [
+        "APU32_80V",
+        "APU32_30V",
+        "APU32_10V",
+        "APU32_3p6V"
+      ]
+    },
+    {
+      "name": "Irange",
+      "description": "The current range for the pins being programmed.",
+      "valid_values": [
+        {
+          "voltage_range": "3.6V and 10V",
+          "options": [
+            "APU32_200MA",
+            "APU32_100MA",
+            "APU32_10MA",
+            "APU32_1MA",
+            "APU32_100UA",
+            "APU32_10UA"
+          ]
+        },
+        {
+          "voltage_range": "30V",
+          "options": [
+            "APU32_100MA",
+            "APU32_10MA",
+            "APU32_1MA",
+            "APU32_100UA",
+            "APU32_10UA"
+          ]
+        },
+        {
+          "voltage_range": "80V",
+          "options": [
+            "APU32_50MA",
+            "APU32_10MA",
+            "APU32_1MA",
+            "APU32_100UA",
+            "APU32_10UA"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Connect",
+      "description": "Optional. Defines how channels specified by PinBusList and Site are connected.",
+      "valid_values": [
+        "APU32_PIN_TO_VI (0) (Default)",
+        "APU32_PIN_TO_BUSA (1)",
+        "APU32_PIN_TO_BUSB (2)",
+        "APU32_PIN_TO_VI_AND_BUSA (3)",
+        "APU32_PIN_TO_VI_AND_BUSB (4)",
+        "APU32_BUSA_TO_VI (5)",
+        "APU32_BUSB_TO_VI (6)",
+        "APU32_DISCONNECT (7)"
+      ]
+    },
+    {
+      "name": "ConnectMode",
+      "description": "Optional. Kelvin mode connections.",
+      "valid_values": [
+        "APU32_KELVIN_OFF (0) (Default)",
+        "APU32_KELVIN_PIN_150K_ON (1)",
+        "APU32_KELVIN_BANK_HI_ON (2)",
+        "APU32_KELVIN_BANK_LO_ON (3)",
+        "APU32_EXT_BUS_OFF (4)",
+        "APU32_EXT_BUS_ON (5)",
+        "APU32_EXT_BUS_OFF_FS_SHORT (6)",
+        "APU32_EXT_BUS_ON_FS_SHORT (7)",
+        "APU32_EXT_BUS_NOCHANGE (8)"
+      ]
+    },
+    {
+      "name": "Site",
+      "description": "Optional. The sites to program for multisite testing.",
+      "valid_values": [
+        "0 to MS_MAX_SITES",
+        "MS_IGNORE_SITES (-3)",
+        "MS_NO_SITE (-2)",
+        "MS_ALL (-1)"
+      ]
+    }
+  ],
+  "returns": {
+    "description": "This utility returns an integer that indicates the result of a call (status).",
+    "status_codes": [
+      "0: Operation successful.",
+      "Nonzero: Failure. See onerr() for a list of error codes."
+    ]
+  },
+  "usage": "Forcing voltage into a capacitive load can cause large overshoot and excessive ringing, resulting in long settling times. Enabling phase-lead compensation can reduce overshoot and ringing. This should be enabled only when a capacitive load is present.",
+  "examples": {
+    "single_instrument": {
+      "description": "Single pin force and measurement with Kelvin mode enabled.",
+      "code": [
+        "double v;",
+        "double i;",
+        "apu32set('MyPin', APU32_FV, 2, APU32_10V, APU32_10MA, APU32_PIN_TO_VI);",
+        "apu32set('MyPin', APU32_FI, 0.025, APU32_10V, APU32_100UA, APU32_PIN_TO_VI, APU32_KELVIN_PIN_150K_ON);",
+        "v = apu32mv('MyPin', APU32_MV_1X, 128, 20);",
+        "i = apu32mi('MyPin', APU32_MI_1X, 128, 20);",
+        "i *= 1000;",
+        "if (v < 3.7 || v > 3.8) { /* fail */ }",
+        "if (i < 24 || i > 26) { /* fail */ }"
+      ]
+    },
+    "grouped_instruments": {
+      "description": "Grouped pins force and measurement.",
+      "code": [
+        "apu32set('MyPins', APU32_FV, 2, APU32_10V, APU32_10MA, APU32_PIN_TO_VI);",
+        "apu32setcapload('MyPins', APU32_FV, 5, APU32_10V, APU32_10MA, 10);"
+      ]
+    }
+  }
+}
+,
+  {
+  "function": "lwait()",
+  "description": "This utility adds a programmed delay in the test program flow.",
+  "availability": [
+    "ETS-88 (Release 2011A)",
+    "ETS-800 (Release 2013A)",
+    "AC-2500 (Release 2015A)"
+  ],
+  "declarations": {
+    "return_type": "void",
+    "name": "lwait",
+    "parameters": [
+      "unsigned long delay"
+    ]
+  },
+  "format": "lwait(delay);",
+  "parameters": [
+    {
+      "name": "delay",
+      "description": "Time, in µs, to wait."
+    }
+  ],
+  "returns": {
+    "description": "None."
+  },
+  "usage": "The parameter delay is a long integer, which can cause a wait from a few microseconds to many seconds.",
+  "examples": {
+    "description": "Wait for 500 ms",
+    "code": "lwait(500000L);"
+  }
+}
+,
+  {
+  "function": "groupgetresults()",
+  "description": "This utility gets the measured results from the last measurement utility called that operated on a group of instruments.",
+  "availability": [
+    "ETS-88 (Release 2011A)",
+    "ETS-800 (Release 2013A)",
+    "AC-2500 (Release 2015A)"
+  ],
+  "declarations": {
+    "return_type": "int",
+    "name": "groupgetresults",
+    "parameters": [
+      "RESULTS_STR results[]",
+      "int size"
+    ]
+  },
+  "format": "status = groupgetresults(results, size);",
+  "parameters": [
+    {
+      "name": "results",
+      "description": "A pointer to an array that is filled with the measured results from the last group measurement utility. NULLPTR is accepted."
+    },
+    {
+      "name": "size",
+      "description": "The size of the results array based on the RESULTS_STR definition. Size should be for all sites, even those that are inactive."
+    }
+  ],
+  "returns": {
+    "description": "The number of instrument results filled into the results array."
+  },
+  "usage": {
+    "description": "This utility returns measured values in the results parameter, which is a user-defined variable of the type RESULTS_STR. Each array element of this structure is filled with the appropriate data for each instrument in the group.",
+    "results_str_definition": {
+      "typedef": "struct",
+      "structure": {
+        "resource": "int - ISO-COMM position or pin number",
+        "site": "int - site, 0-15, -1 if not assigned to a site, -2 if instrument is off",
+        "value": "double - measured value, 0.0 if instrument is off",
+        "PassFail": "int - Filled in by msLogDataAll(), +1, 0, -1, +2"
+      }
+    },
+    "example_declaration": "RESULTS_STR results[NUM_SITES * 8]; // NUM_SITES defined as 2 in .h file",
+    "example_usage": [
+      "// Set up the instrument and get the forcing value (Force_I) from the datasheet",
+      "apu32set(APU_CONT, APU32_FI, Force_I[DSIndex], APU32_10V, APU32_1MA, APU32_PIN_TO_VI, APU32_KELVIN_OFF);",
+      "// Take 8 measurements 10 microseconds apart and average the result",
+      "apu32mv(APU_CONT, APU32_MV_1X, 1, 10, APU32_MI_1X , APU32_NORMAL, MS_ALL);",
+      "// Gather the measurements:",
+      "groupgetresults(results, NUM_SITES * 8);"
+    ]
+  },
+  "notes": [
+    "If the number of instruments in the group is less than the size parameter, the results array is terminated by a -1 in the instrument field.",
+    "A call to etsinit() clears the results array.",
+    "Avoid using groupgetresults with a mix of pins and groups. Only use it with a list of pins or with a pin group that has been defined in the Pin Map."
+  ]
+}
+ 
+]
